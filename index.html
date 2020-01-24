@@ -1,35 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.4.0/vue.js"></script>
-		<script src="ListItem.js"></script>
-		<script src="AddItem.js"></script>
-	</head>
-	<body>
-		<div id="app">
-			<add-item
-				@add="list.push({title:arguments[0], checked: false})"
-			></add-item>
-			<list-item
-				v-for="(l, i) in list"
-				:key="i"
-				:title="l.title"
-				:checked="l.checked"
-				@change="l.checked=arguments[0]"
-			></list-item>
-		</div>
-		<script type="text/javascript">
-			new Vue({
-				el: '#app',
-				data: {
-					newTitle: '',
-					list: [
-						{ title: 'A', checked: true },
-						{ title: 'B', checked: true },
-						{ title: 'C', checked: true }
-					]
-				}
-			});
-		</script>
-	</body>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.4.0/vue.js"></script>
+    <script src="ListItem.js"></script>
+    <script src="AddItem.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <add-item
+        @add="list.push({title:arguments[0], checked: false})"
+      ></add-item>
+      <list-item
+        v-for="(l, i) in list"
+        :key="i"
+        :title="l.title"
+        :checked="l.checked"
+        @change="l.checked=arguments[0]"
+      ></list-item>
+      <p ref="dom">{{counter}}</p>
+    </div>
+    <script type="text/javascript">
+      new Vue({
+        el: "#app",
+        created: function() {
+          setInterval(() => {
+            this.counter++;
+          }, 1000);
+        },
+        updated: function() {
+          console.log(+this.$refs["dom"].textContent === this.counter); // Logs true every second
+        },
+        data: {
+          counter: 0,
+          newTitle: "",
+          list: [
+            { title: "A", checked: true },
+            { title: "B", checked: true },
+            { title: "C", checked: true }
+          ]
+        }
+      });
+    </script>
+  </body>
 </html>
